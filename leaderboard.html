@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>排行榜</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+:root{
+    --primary:#2f6fed;
+    --bg:#ffffff;
+    --text:#000000;
+}
+body{
+    margin:0;
+    font-family:Helvetica Neue,Arial,sans-serif;
+    background:#f0f0f0;
+    color:var(--text);
+}
+.container{
+    max-width:960px;
+    margin:16px auto;
+    padding:0 16px;
+}
+.navbar{
+    background:var(--bg);
+    border-radius:8px;
+    padding:16px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    align-items:center;
+    box-shadow:0 2px 4px rgba(0,0,0,0.1);
+}
+.navbar a{
+    color:var(--primary);
+    text-decoration:none;
+    font-weight:500;
+    padding:8px 12px;
+    border-radius:4px;
+}
+.navbar a:hover{
+    background:rgba(47,111,237,0.1);
+}
+.content{
+    background:var(--bg);
+    border-radius:8px;
+    padding:16px;
+    min-height:400px;
+    box-shadow:0 2px 4px rgba(0,0,0,0.1);
+}
+@media (max-width:600px){
+    .navbar{
+        flex-direction:column;
+        align-items:flex-start;
+    }
+    .navbar a{
+        width:100%;
+        text-align:left;
+    }
+}
+</style>
+<meta name="description" content="展示本地存储的历史记录（用时、步数），支持排序和清除。"><meta name="keywords" content="迷宫,游戏,编辑器,排行榜,本地存储"><meta name="robots" content="index,follow,max-image-preview:large"><meta property="og:type" content="website"><meta property="og:title" content="排行榜"><meta property="og:description" content="展示本地存储的历史记录（用时、步数），支持排序和清除。"><meta name="twitter:card" content="summary"><meta name="twitter:title" content="排行榜"><meta name="twitter:description" content="展示本地存储的历史记录（用时、步数），支持排序和清除。"><script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"排行榜","description":"展示本地存储的历史记录（用时、步数），支持排序和清除。","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"CNY"}}</script><style data-a2a="basecss">*,*::before,*::after{box-sizing:border-box}html{-webkit-text-size-adjust:100%}body{margin:0}img,canvas,svg,video,table{max-width:100%;height:auto}pre,code{white-space:pre-wrap;word-break:break-word}[data-a2a="header"]{width:100%}@media(max-width:640px){body{font-size:15px}}</style></head>
+<body>
+<div class="container">
+    <nav class="navbar">
+        <a href="index.html">首页</a>
+        <a href="editor.html">编辑器</a>
+        <a href="game.html">游戏</a>
+        <a href="leaderboard.html">排行榜</a>
+        <a href="settings.html">设置</a>
+    </nav>
+    <main class="content">
+        
+<section class="section">
+    <h2>排行榜</h2>
+    <div>
+        <button id="clearBtn" class="btn">清除记录</button>
+        <table id="lbTable" class="table" style="display:none;">
+            <thead>
+                <tr>
+                    <th data-key="time">时间 (秒)</th>
+                    <th data-key="steps">步数</th>
+                    <th data-key="date">日期</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+        <div id="emptyMsg" class="empty" style="display:none;">
+            <svg width="64" height="64" fill="var(--primary)" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><rect width="64" height="64" rx="8" fill="var(--bg)"/><path d="M32 20a12 12 0 110 24 12 12 0 010-24z" fill="var(--primary)"/></svg>
+            <p>暂无记录</p>
+        </div>
+    </div>
+</section>
+
+<script>
+(function () {
+    const STORAGE_KEY = 'mazeLeaderboard';
+    const tbl = document.getElementById('lbTable');
+    const tbody = tbl.querySelector('tbody');
+    const clearBtn = document.getElementById('clearBtn');
+    const emptyMsg = document.getElementById('emptyMsg');
+
+    let sortKey = 'time';
+    let sortAsc = true;
+
+    function loadRecords() {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        return raw ? JSON.parse(raw) : [];
+    }
+
+    function saveRecords(arr) {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(arr));
+    }
+
+    function render() {
+        const records = loadRecords();
+        if (records.length === 0) {
+            tbl.style.display = 'none';
+            emptyMsg.style.display = 'block';
+            return;
+        }
+        tbl.style.display = 'table';
+        emptyMsg.style.display = 'none';
+
+        // sort
+        const sorted = [...records].sort((a, b) => {
+            let av = a[sortKey];
+            let bv = b[sortKey];
+            if (typeof av === 'string') {
+                av = new Date(av).getTime();
+                bv = new Date(bv).getTime();
+            }
+            return sortAsc ? (av > bv ? 1 : -1) : (av < bv ? 1 : -1);
+        });
+
+        tbody.innerHTML = '';
+        sorted.forEach(rec => {
+            const tr = document.createElement('tr');
+            const timeTd = document.createElement('td');
+            timeTd.textContent = rec.time.toFixed(2);
+            const stepsTd = document.createElement('td');
+            stepsTd.textContent = rec.steps;
+            const dateTd = document.createElement('td');
+            const date = new Date(rec.date);
+            dateTd.textContent = date.toLocaleString();
+            tr.append(timeTd, stepsTd, dateTd);
+            tbody.appendChild(tr);
+        });
+    }
+
+    function setSort(key) {
+        if (sortKey === key) {
+            sortAsc = !sortAsc;
+        } else {
+            sortKey = key;
+            sortAsc = true;
+        }
+        // update header arrows
+        document.querySelectorAll('#lbTable thead th').forEach(th => {
+            th.textContent = th.dataset.key === 'time' ? '时间 (秒)' :
+                             th.dataset.key === 'steps' ? '步数' : '日期';
+            if (th.dataset.key === key) {
+                th.textContent += sortAsc ? ' ▲' : ' ▼';
+            }
+        });
+        render();
+    }
+
+    // init header click
+    document.querySelectorAll('#lbTable thead th').forEach(th => {
+        th.style.cursor = 'pointer';
+        th.addEventListener('click', () => setSort(th.dataset.key));
+    });
+
+    clearBtn.addEventListener('click', () => {
+        if (confirm('确定要清除所有排行榜记录吗？')) {
+            localStorage.removeItem(STORAGE_KEY);
+            render();
+        }
+    });
+
+    // initial render
+    render();
+})();
+</script>
+
+    </main>
+</div>
+<footer data-a2a="footer" style="margin-top:48px;padding:28px 16px;border-top:1px solid rgba(127,127,127,.16);text-align:center;font-family:system-ui,-apple-system,'PingFang SC',sans-serif;line-height:1.9;color:#8a8f99;background:transparent"><a href="https://www.autoa2a.org" target="_blank" rel="noopener" style="display:inline-block;margin-bottom:10px"><img src="https://agent.oagi.com.cn/uploads/202606/29ea3ed5413830b3.png" alt="AutoA2A" style="height:36px;vertical-align:middle;border:0"></a><div style="font-size:13.5px;color:#6b7280;max-width:760px;margin:0 auto 6px">✅️ <b>AutoA2A</b> · 智能体互连 Agent to Agent 平台——让智能体无缝发现、协商、协作与安全交换数据，开启 AI 即服务新时代。</div><div style="font-size:13px">本网站由 <a href="https://www.autoa2a.org" target="_blank" rel="noopener" style="color:#f2603c;text-decoration:none;font-weight:600">www.autoa2a.org</a> 多个 AI 协作生成</div><div style="font-size:12px;color:#aab;margin-top:6px">Copyright © 2025 - 2026 AutoA2A. All Rights Reserved. A2A版权所有</div></footer></body>
+</html>
