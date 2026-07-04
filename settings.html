@@ -1,58 +1,214 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="zh-CN">
-<head><script>window.APP_DATA = [{"id":1,"maze":[[0,1,0,0,1],[0,1,0,1,0],[0,0,0,1,0],[1,1,0,0,0],[0,0,1,1,0]],"solution":[[0,0],[1,0],[2,0],[2,1],[2,2],[3,2],[4,2],[4,3],[4,4]],"size":"5x5","difficulty":"Easy","time":"0.12s","steps":9},{"id":2,"maze":[[0,0,1,0,0,1],[1,0,1,0,1,0],[0,0,0,0,1,0],[0,1,1,0,0,0],[1,0,0,1,1,0],[0,0,1,0,0,0]],"solution":[[0,0],[0,1],[1,1],[2,1],[2,2],[2,3],[3,3],[4,3],[5,3],[5,4],[5,5]],"size":"6x6","difficulty":"Medium","time":"0.34s","steps":11},{"id":3,"maze":[[0,1,0,0,0,1,0],[0,1,0,1,0,1,0],[0,0,0,1,0,0,0],[1,1,1,0,1,1,0],[0,0,0,0,0,0,0]],"solution":[[0,0],[1,0],[2,0],[2,1],[2,2],[2,3],[3,3],[4,3],[4,4],[4,5],[4,6]],"size":"5x7","difficulty":"Hard","time":"0.68s","steps":11},{"id":4,"maze":[[0,0,0,1,0],[1,1,0,1,0],[0,0,0,0,0],[0,1,1,1,1],[0,0,0,0,0]],"solution":[[0,0],[0,1],[0,2],[1,2],[2,2],[2,3],[2,4],[3,4],[4,4]],"size":"5x5","difficulty":"Easy","time":"0.09s","steps":9},{"id":5,"maze":[[0,1,1,0,0,0],[0,0,1,0,1,0],[1,0,0,0,1,0],[1,1,1,0,0,0],[0,0,0,1,1,0],[0,1,0,0,0,0]],"solution":[[0,0],[1,0],[1,1],[2,1],[2,2],[2,3],[3,3],[4,3],[5,3],[5,4],[5,5]],"size":"6x6","difficulty":"Medium","time":"0.27s","steps":11},{"id":6,"maze":[[0,0,1,0,1,0,0],[1,0,1,0,1,0,1],[0,0,0,0,0,0,0],[0,1,1,1,1,1,0],[0,0,0,0,0,0,0]],"solution":[[0,0],[0,1],[1,1],[2,1],[2,2],[2,3],[2,4],[2,5],[2,6],[3,6],[4,6]],"size":"5x7","difficulty":"Hard","time":"0.81s","steps":11},{"id":7,"maze":[[0,1,0,0],[0,1,0,1],[0,0,0,1],[1,1,0,0]],"solution":[[0,0],[1,0],[2,0],[2,1],[2,2],[3,2],[3,3]],"size":"4x4","difficulty":"Easy","time":"0.05s","steps":7},{"id":8,"maze":[[0,0,1,0,0,1],[1,0,1,0,1,0],[0,0,0,0,0,0],[0,1,1,1,1,0],[0,0,0,0,0,0],[1,1,0,1,1,0]],"solution":[[0,0],[0,1],[1,1],[2,1],[2,2],[2,3],[2,4],[2,5],[3,5],[4,5],[5,5]],"size":"6x6","difficulty":"Medium","time":"0.31s","steps":11},{"id":9,"maze":[[0,1,0,0,0],[0,1,0,1,0],[0,0,0,1,0],[1,1,0,0,0],[0,0,0,1,0]],"solution":[[0,0],[1,0],[2,0],[2,1],[2,2],[3,2],[4,2],[4,3],[4,4]],"size":"5x5","difficulty":"Easy","time":"0.11s","steps":9},{"id":10,"maze":[[0,0,0,1,0,0],[1,1,0,1,0,1],[0,0,0,0,0,0],[0,1,1,1,1,0],[0,0,0,0,1,0],[1,0,1,0,0,0]],"solution":[[0,0],[0,1],[0,2],[1,2],[2,2],[2,3],[2,4],[2,5],[3,5],[4,5],[5,5]],"size":"6x6","difficulty":"Hard","time":"0.74s","steps":11},{"id":11,"maze":[[0,1,0,0,1,0],[0,1,0,1,0,0],[0,0,0,1,0,1],[1,0,1,0,0,0],[0,0,0,0,1,0],[0,1,1,0,0,0]],"solution":[[0,0],[1,0],[2,0],[2,1],[2,2],[3,2],[4,2],[4,3],[4,4],[5,4],[5,5]],"size":"6x6","difficulty":"Medium","time":"0.29s","steps":11},{"id":12,"maze":[[0,0,1,0],[1,0,1,0],[0,0,0,0],[0,1,1,0],[0,0,0,0]],"solution":[[0,0],[0,1],[1,1],[2,1],[2,2],[2,3],[3,3],[4,3]],"size":"5x4","difficulty":"Easy","time":"0.07s","steps":8},{"id":13,"maze":[[0,1,0,0,0,1,0],[0,1,0,1,0,1,0],[0,0,0,1,0,0,0],[1,1,0,0,0,1,0],[0,0,0,1,0,0,0]],"solution":[[0,0],[1,0],[2,0],[2,1],[2,2],[3,2],[4,2],[4,3],[4,4],[4,5],[4,6]],"size":"5x7","difficulty":"Hard","time":"0.88s","steps":11},{"id":14,"maze":[[0,0,0,1,0],[1,1,0,1,0],[0,0,0,0,0],[0,1,1,1,1],[0,0,0,0,0]],"solution":[[0,0],[0,1],[0,2],[1,2],[2,2],[2,3],[2,4],[3,4],[4,4]],"size":"5x5","difficulty":"Medium","time":"0.22s","steps":9},{"id":15,"maze":[[0,1,0,0,0,0],[0,1,1,1,1,0],[0,0,0,0,1,0],[1,1,1,0,1,0],[0,0,0,0,0,0],[0,1,1,1,1,1]],"solution":[[0,0],[1,0],[2,0],[2,1],[2,2],[2,3],[3,3],[4,3],[4,4],[4,5]],"size":"6x6","difficulty":"Hard","time":"0.95s","steps":10},{"id":16,"maze":[[0,1,0,0],[0,1,0,1],[0,0,0,1],[1,1,0,0]],"solution":[[0,0],[1,0],[2,0],[2,1],[2,2],[3,2],[3,3]],"size":"4x4","difficulty":"Easy","time":"0.12s","steps":7},{"id":17,"maze":[[0,0,1,0,0],[1,0,1,0,1],[1,0,0,0,0],[0,1,1,1,0],[0,0,0,0,0]],"solution":[[0,0],[0,1],[1,1],[2,1],[2,2],[2,3],[2,4],[3,4],[4,4]],"size":"5x5","difficulty":"Medium","time":"0.34s","steps":9},{"id":18,"maze":[[0,1,1,0,0,0],[0,0,1,0,1,0],[1,0,0,0,1,0],[0,1,1,0,0,0]],"solution":[[0,0],[1,0],[1,1],[2,1],[2,2],[2,3],[3,3],[3,4],[3,5]],"size":"4x6","difficulty":"Medium","time":"0.27s","steps":9},{"id":19,"maze":[[0,0,0,1,0],[1,1,0,1,0],[0,0,0,0,0],[0,1,1,1,1],[0,0,0,0,0]],"solution":[[0,0],[0,1],[0,2],[1,2],[2,2],[2,3],[2,4],[3,4],[4,4]],"size":"5x5","difficulty":"Hard","time":"0.58s","steps":9},{"id":20,"maze":[[0,1,0,0,0,1,0],[0,1,0,1,0,1,0],[0,0,0,1,0,0,0],[1,1,0,0,0,1,1]],"solution":[[0,0],[1,0],[2,0],[2,1],[2,2],[3,2],[3,3],[3,4],[2,4],[1,4],[0,4],[0,5],[0,6]],"size":"4x7","difficulty":"Hard","time":"0.73s","steps":13},{"id":21,"maze":[[0,0,1,0],[0,1,0,0],[0,1,0,1],[0,0,0,0]],"solution":[[0,0],[1,0],[2,0],[3,0],[3,1],[3,2],[3,3]],"size":"4x4","difficulty":"Easy","time":"0.09s","steps":7},{"id":22,"maze":[[0,1,0,0,0],[0,1,0,1,0],[0,0,0,1,0],[1,1,0,0,0]],"solution":[[0,0],[1,0],[2,0],[2,1],[2,2],[3,2],[3,3],[3,4]],"size":"4x5","difficulty":"Medium","time":"0.31s","steps":8},{"id":23,"maze":[[0,0,0,1,0,0],[1,1,0,1,0,1],[0,0,0,0,0,0],[0,1,1,1,1,0]],"solution":[[0,0],[0,1],[0,2],[1,2],[2,2],[2,3],[2,4],[2,5],[3,5]],"size":"4x6","difficulty":"Hard","time":"0.66s","steps":9},{"id":24,"maze":[[0,1,0,0,0,0,0],[0,1,0,1,1,1,0],[0,0,0,0,0,1,0],[1,1,1,1,0,1,0]],"solution":[[0,0],[1,0],[2,0],[2,1],[2,2],[2,3],[2,4],[3,4],[4,4]],"size":"5x7","difficulty":"Medium","time":"0.42s","steps":9},{"id":25,"maze":[[0,0,1,0,0],[0,1,0,1,0],[0,1,0,0,0],[0,0,0,1,0]],"solution":[[0,0],[0,1],[1,1],[2,1],[2,2],[2,3],[2,4],[3,4]],"size":"4x5","difficulty":"Easy","time":"0.15s","steps":8},{"id":26,"maze":[[0,1,0,0,0,0],[0,1,0,1,1,0],[0,0,0,0,1,0],[1,1,1,0,0,0]],"solution":[[0,0],[1,0],[2,0],[2,1],[2,2],[2,3],[3,3],[3,4],[3,5]],"size":"4x6","difficulty":"Hard","time":"0.71s","steps":9},{"id":27,"maze":[[0,0,0,1,0,0,0],[1,1,0,1,0,1,0],[0,0,0,0,0,1,0],[0,1,1,1,0,0,0]],"solution":[[0,0],[0,1],[0,2],[1,2],[2,2],[2,3],[2,4],[3,4],[4,4]],"size":"5x7","difficulty":"Medium","time":"0.38s","steps":9},{"id":28,"maze":[[0,1,0,0],[0,1,0,1],[0,0,0,0],[1,1,1,0]],"solution":[[0,0],[1,0],[2,0],[2,1],[2,2],[2,3],[3,3]],"size":"4x4","difficulty":"Easy","time":"0.11s","steps":7},{"id":29,"maze":[[0,0,1,0,0,0],[0,1,0,1,1,0],[0,1,0,0,0,0],[0,0,0,1,1,0]],"solution":[[0,0],[0,1],[1,1],[2,1],[2,2],[2,3],[2,4],[2,5]],"size":"4x6","difficulty":"Medium","time":"0.33s","steps":8},{"id":30,"maze":[[0,1,0,0,0],[0,1,0,1,0],[0,0,0,1,0],[1,1,0,0,0]],"solution":[[0,0],[1,0],[2,0],[2,1],[2,2],[3,2],[3,3],[3,4]],"size":"4x5","difficulty":"Hard","time":"0.59s","steps":8},{"id":31,"maze":[[0,0,0,1,0,0,0,0],[1,1,0,1,0,1,1,0],[0,0,0,0,0,0,0,0],[0,1,1,1,1,1,0,0]],"solution":[[0,0],[0,1],[0,2],[1,2],[2,2],[2,3],[2,4],[2,5],[2,6],[2,7]],"size":"4x8","difficulty":"Hard","time":"0.84s","steps":10},{"id":32,"maze":[[0,0,1,0,0,1],[0,1,0,1,0,0],[0,0,0,0,0,0],[1,1,1,0,1,0]],"solution":[[0,0],[0,1],[1,1],[2,1],[2,2],[2,3],[2,4],[2,5]],"size":"4x6","difficulty":"Easy","time":"0.14s","steps":8},{"id":33,"maze":[[0,1,0,0,0,0,1],[0,1,0,1,1,0,0],[0,0,0,0,0,0,0],[1,1,1,0,1,1,0]],"solution":[[0,0],[1,0],[2,0],[2,1],[2,2],[2,3],[2,4],[2,5],[2,6]],"size":"4x7","difficulty":"Medium","time":"0.37s","steps":9},{"id":34,"maze":[[0,0,0,1,0],[0,1,0,1,0],[0,1,0,0,0],[0,0,0,1,0]],"solution":[[0,0],[0,1],[0,2],[1,2],[2,2],[2,3],[2,4],[3,4]],"size":"4x5","difficulty":"Easy","time":"0.16s","steps":8},{"id":35,"maze":[[0,1,0,0,0,0],[0,1,0,1,1,0],[0,0,0,0,0,0],[1,1,1,0,1,0]],"solution":[[0,0],[1,0],[2,0],[2,1],[2,2],[2,3],[2,4],[2,5],[3,5]],"size":"4x6","difficulty":"Hard","time":"0.78s","steps":9}];(function(d){try{if(Array.isArray(d)){["items","list","data","records","rows","all","results","content"].forEach(function(k){try{if(d[k]===undefined)d[k]=d;}catch(e){}});}window.APP_LIST=Array.isArray(d)?d:[];window.getById=function(id){return window.APP_LIST.find(function(x){return x&&String(x.id)===String(id);})||null;};}catch(e){}})(window.APP_DATA);</script>
-<meta charset="UTF-8">
-<title>设置</title>
+<head>
+<meta charset="utf-8">
+<title>个人设置</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
-:root{--primary:#2f6fed;--secondary:#f5f5f5;--font:"Arial, sans-serif";--nav-bg:#ffffff;--nav-text:#333333;--card-bg:#ffffff;--card-radius:8px;--card-shadow:0 2px 4px rgba(0,0,0,.1);--btn-bg:#2f6fed;--btn-text:#ffffff;--btn-radius:4px;--btn-pad:10px 20px;--margin:20px;--pad:15px;}
-body{margin:0;font-family:var(--font);background:var(--secondary);}
-nav{background:var(--nav-bg);color:var(--nav-text);height:60px;display:flex;align-items:center;padding:0 20px;}
-nav a{margin-right:15px;color:var(--nav-text);text-decoration:none;}
-main{padding:var(--pad);margin-top:var(--margin);}
-.card{background:var(--card-bg);border-radius:var(--card-radius);box-shadow:var(--card-shadow);padding:var(--pad);margin-bottom:var(--margin);}
-label{display:block;margin-bottom:5px;}
-input,select{width:100%;padding:8px;margin-bottom:15px;border:1px solid #ccc;border-radius:4px;}
-button{background:var(--btn-bg);color:var(--btn-text);border:none;border-radius:var(--btn-radius);padding:var(--btn-pad);cursor:pointer;}
-button:hover{opacity:.9;}
-@media(max-width:600px){nav{flex-direction:column;height:auto;align-items:flex-start;}}
+:root{
+    --primary:#2f6fed;
+    --bg:#ffffff;
+    --text:#000000;
+}
+body{
+    margin:0;
+    font-family:Helvetica Neue,Arial,sans-serif;
+    background:#f0f0f0;
+    color:var(--text);
+}
+.container{
+    max-width:960px;
+    margin:16px auto;
+    padding:0 16px;
+}
+.navbar{
+    background:var(--bg);
+    border-radius:8px;
+    padding:16px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    align-items:center;
+    box-shadow:0 2px 4px rgba(0,0,0,0.1);
+}
+.navbar a{
+    color:var(--primary);
+    text-decoration:none;
+    font-weight:500;
+    padding:8px 12px;
+    border-radius:4px;
+}
+.navbar a:hover{
+    background:rgba(47,111,237,0.1);
+}
+.content{
+    background:var(--bg);
+    border-radius:8px;
+    padding:16px;
+    min-height:400px;
+    box-shadow:0 2px 4px rgba(0,0,0,0.1);
+}
+@media (max-width:600px){
+    .navbar{
+        flex-direction:column;
+        align-items:flex-start;
+    }
+    .navbar a{
+        width:100%;
+        text-align:left;
+    }
+}
 </style>
-<meta name="description" content="用户自定义游戏设置，如速度、难度等"><meta name="keywords" content="迷宫,游戏,算法,求解,前端,JavaScript,Canvas,Web Worker"><meta name="robots" content="index,follow,max-image-preview:large"><meta property="og:type" content="website"><meta property="og:title" content="设置"><meta property="og:description" content="用户自定义游戏设置，如速度、难度等"><meta name="twitter:card" content="summary"><meta name="twitter:title" content="设置"><meta name="twitter:description" content="用户自定义游戏设置，如速度、难度等"><script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"设置","description":"用户自定义游戏设置，如速度、难度等","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"CNY"}}</script></head>
+<meta name="description" content="管理已保存的迷宫关卡、导入导出数据、重置进度。"><meta name="keywords" content="迷宫,游戏,编辑器,排行榜,本地存储"><meta name="robots" content="index,follow,max-image-preview:large"><meta property="og:type" content="website"><meta property="og:title" content="个人设置"><meta property="og:description" content="管理已保存的迷宫关卡、导入导出数据、重置进度。"><meta name="twitter:card" content="summary"><meta name="twitter:title" content="个人设置"><meta name="twitter:description" content="管理已保存的迷宫关卡、导入导出数据、重置进度。"><script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"个人设置","description":"管理已保存的迷宫关卡、导入导出数据、重置进度。","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"CNY"}}</script><style data-a2a="basecss">*,*::before,*::after{box-sizing:border-box}html{-webkit-text-size-adjust:100%}body{margin:0}img,canvas,svg,video,table{max-width:100%;height:auto}pre,code{white-space:pre-wrap;word-break:break-word}[data-a2a="header"]{width:100%}@media(max-width:640px){body{font-size:15px}}</style></head>
 <body>
-<nav>
-<a href="index.html">首页</a>
-<a href="generate.html">生成迷宫</a>
-<a href="maze.html">迷宫游戏</a>
-<a href="solution.html">求解结果</a>
-<a href="history.html">历史记录</a>
-<a href="settings.html">设置</a>
-<a href="about.html">关于</a>
-<a href="help.html">帮助</a>
-</nav>
-<main>
-<div class="card">
-<h2>游戏设置</h2>
-<form id="settingsForm">
-<label for="speed">速度 (1-10)</label>
-<input type="number" id="speed" name="speed" min="1" max="10" value="5">
-<label for="difficulty">难度</label>
-<select id="difficulty" name="difficulty">
-<option value="Easy">Easy</option>
-<option value="Medium">Medium</option>
-<option value="Hard">Hard</option>
-</select>
-<button type="submit">保存设置</button>
-</form>
-</div>
-</main>
+<div class="container">
+    <nav class="navbar">
+        <a href="index.html">首页</a>
+        <a href="editor.html">编辑器</a>
+        <a href="game.html">游戏</a>
+        <a href="leaderboard.html">排行榜</a>
+        <a href="settings.html">设置</a>
+    </nav>
+    <main class="content">
+        
+<section class="section">
+  <h2 style="color:var(--primary);margin-bottom:8px;">已保存的迷宫关卡</h2>
+  <div style="background:var(--bg);border-radius:8px;padding:16px;box-shadow:0 2px 4px rgba(0,0,0,0.1);">
+    <table class="table" style="width:100%;border-collapse:collapse;margin-bottom:16px;">
+      <thead>
+        <tr style="background:var(--primary);color:#fff;">
+          <th style="padding:8px;text-align:left;">名称</th>
+          <th style="padding:8px;text-align:left;">操作</th>
+        </tr>
+      </thead>
+      <tbody id="mazeListBody"></tbody>
+    </table>
+    <div style="margin-top:8px;">
+      <button class="btn" id="exportBtn" style="background:var(--primary);color:#fff;border:none;border-radius:4px;padding:8px 16px;font-weight:500;cursor:pointer;transition:background 0.3s;">导出数据</button>
+      <button class="btn" id="importTrigger" style="background:var(--primary);color:#fff;border:none;border-radius:4px;padding:8px 16px;font-weight:500;cursor:pointer;transition:background 0.3s;margin-left:8px;">导入数据</button>
+      <input type="file" id="importFile" accept=".json" style="display:none;">
+      <button class="btn" id="resetBtn" style="background:var(--primary);color:#fff;border:none;border-radius:4px;padding:8px 16px;font-weight:500;cursor:pointer;transition:background 0.3s;margin-left:8px;">重置进度</button>
+    </div>
+  </div>
+</section>
 <script>
-document.getElementById('settingsForm').addEventListener('submit',function(e){
-e.preventDefault();
-const speed=document.getElementById('speed').value;
-const difficulty=document.getElementById('difficulty').value;
-localStorage.setItem('gameSpeed',speed);
-localStorage.setItem('gameDifficulty',difficulty);
-alert('设置已保存');
-});
+function getMazes() {
+  const s = localStorage.getItem('savedMazes');
+  return s ? JSON.parse(s) : [];
+}
+
+function setMazes(arr) {
+  localStorage.setItem('savedMazes', JSON.stringify(arr));
+}
+
+function render() {
+  const tbody = document.getElementById('mazeListBody');
+  tbody.innerHTML = '';
+  const mazes = getMazes();
+  if (mazes.length === 0) {
+    const tr = document.createElement('tr');
+    const td = document.createElement('td');
+    td.colSpan = 2;
+    td.style.textAlign = 'center';
+    td.style.color = '#777';
+    td.textContent = '暂无保存的迷宫';
+    tr.appendChild(td);
+    tbody.appendChild(tr);
+    return;
+  }
+  mazes.forEach(m => {
+    const tr = document.createElement('tr');
+    const nameTd = document.createElement('td');
+    nameTd.style.padding = '8px';
+    nameTd.textContent = m.name || '未命名';
+    const actTd = document.createElement('td');
+    actTd.style.padding = '8px';
+    const loadBtn = document.createElement('button');
+    loadBtn.textContent = '加载到编辑器';
+    loadBtn.style.background = 'var(--primary)';
+    loadBtn.style.color = '#fff';
+    loadBtn.style.border = 'none';
+    loadBtn.style.borderRadius = '4px';
+    loadBtn.style.padding = '4px 8px';
+    loadBtn.onclick = () => {
+      localStorage.setItem('currentMaze', JSON.stringify(m));
+      window.location.href = 'editor.html';
+    };
+    const delBtn = document.createElement('button');
+    delBtn.textContent = '删除';
+    delBtn.style.background = '#ff4444';
+    delBtn.style.color = '#fff';
+    delBtn.style.border = 'none';
+    delBtn.style.borderRadius = '4px';
+    delBtn.style.padding = '4px 8px';
+    delBtn.style.marginLeft = '8px';
+    delBtn.onclick = () => {
+      const newMazes = mazes.filter(maze => maze !== m);
+      setMazes(newMazes);
+      render();
+    };
+    actTd.appendChild(loadBtn);
+    actTd.appendChild(delBtn);
+    tr.appendChild(nameTd);
+    tr.appendChild(actTd);
+    tbody.appendChild(tr);
+  });
+}
+
+document.getElementById('exportBtn').onclick = () => {
+  const mazes = getMazes();
+  if (mazes.length === 0) {
+    alert('没有可导出的迷宫数据');
+    return;
+  }
+  const data = JSON.stringify(mazes, null, 2);
+  const blob = new Blob([data], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'mazes.json';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+};
+
+document.getElementById('importTrigger').onclick = () => {
+  document.getElementById('importFile').click();
+};
+
+document.getElementById('importFile').onchange = (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = (event) => {
+    try {
+      const importedMazes = JSON.parse(event.target.result);
+      if (!Array.isArray(importedMazes)) throw new Error('Invalid data format');
+      const existingMazes = getMazes();
+      const newMazes = [...existingMazes, ...importedMazes];
+      setMazes(newMazes);
+      render();
+      alert('数据导入成功');
+    } catch (error) {
+      alert('导入失败：' + error.message);
+    }
+  };
+  reader.readAsText(file);
+};
+
+document.getElementById('resetBtn').onclick = () => {
+  if (confirm('确定要重置所有进度吗？此操作不可撤销！')) {
+    localStorage.removeItem('savedMazes');
+    render();
+    alert('进度已重置');
+  }
+};
+
+render();
 </script>
+
+    </main>
+</div>
 <footer data-a2a="footer" style="margin-top:48px;padding:28px 16px;border-top:1px solid rgba(127,127,127,.16);text-align:center;font-family:system-ui,-apple-system,'PingFang SC',sans-serif;line-height:1.9;color:#8a8f99;background:transparent"><a href="https://www.autoa2a.org" target="_blank" rel="noopener" style="display:inline-block;margin-bottom:10px"><img src="https://agent.oagi.com.cn/uploads/202606/29ea3ed5413830b3.png" alt="AutoA2A" style="height:36px;vertical-align:middle;border:0"></a><div style="font-size:13.5px;color:#6b7280;max-width:760px;margin:0 auto 6px">✅️ <b>AutoA2A</b> · 智能体互连 Agent to Agent 平台——让智能体无缝发现、协商、协作与安全交换数据，开启 AI 即服务新时代。</div><div style="font-size:13px">本网站由 <a href="https://www.autoa2a.org" target="_blank" rel="noopener" style="color:#f2603c;text-decoration:none;font-weight:600">www.autoa2a.org</a> 多个 AI 协作生成</div><div style="font-size:12px;color:#aab;margin-top:6px">Copyright © 2025 - 2026 AutoA2A. All Rights Reserved. A2A版权所有</div></footer></body>
 </html>
