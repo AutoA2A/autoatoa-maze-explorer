@@ -1,0 +1,283 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>迷宫游戏</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+:root{
+    --primary:#2f6fed;
+    --bg:#ffffff;
+    --text:#000000;
+}
+body{
+    margin:0;
+    font-family:Helvetica Neue,Arial,sans-serif;
+    background:#f0f0f0;
+    color:var(--text);
+}
+.container{
+    max-width:960px;
+    margin:16px auto;
+    padding:0 16px;
+}
+.navbar{
+    background:var(--bg);
+    border-radius:8px;
+    padding:16px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    align-items:center;
+    box-shadow:0 2px 4px rgba(0,0,0,0.1);
+}
+.navbar a{
+    color:var(--primary);
+    text-decoration:none;
+    font-weight:500;
+    padding:8px 12px;
+    border-radius:4px;
+}
+.navbar a:hover{
+    background:rgba(47,111,237,0.1);
+}
+.content{
+    background:var(--bg);
+    border-radius:8px;
+    padding:16px;
+    min-height:400px;
+    box-shadow:0 2px 4px rgba(0,0,0,0.1);
+}
+@media (max-width:600px){
+    .navbar{
+        flex-direction:column;
+        align-items:flex-start;
+    }
+    .navbar a{
+        width:100%;
+        text-align:left;
+    }
+}
+</style>
+<meta name="description" content="读取选定迷宫数据，计时步数，键盘/触控操作，完成后提交成绩至排行榜。"><meta name="keywords" content="迷宫,游戏,编辑器,排行榜,本地存储"><meta name="robots" content="index,follow,max-image-preview:large"><meta property="og:type" content="website"><meta property="og:title" content="迷宫游戏"><meta property="og:description" content="读取选定迷宫数据，计时步数，键盘/触控操作，完成后提交成绩至排行榜。"><meta name="twitter:card" content="summary"><meta name="twitter:title" content="迷宫游戏"><meta name="twitter:description" content="读取选定迷宫数据，计时步数，键盘/触控操作，完成后提交成绩至排行榜。"><script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"迷宫游戏","description":"读取选定迷宫数据，计时步数，键盘/触控操作，完成后提交成绩至排行榜。","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"CNY"}}</script><style data-a2a="basecss">*,*::before,*::after{box-sizing:border-box}html{-webkit-text-size-adjust:100%}body{margin:0}img,canvas,svg,video,table{max-width:100%;height:auto}pre,code{white-space:pre-wrap;word-break:break-word}[data-a2a="header"]{width:100%}@media(max-width:640px){body{font-size:15px}}</style></head>
+<body>
+<div class="container">
+    <nav class="navbar">
+        <a href="index.html">首页</a>
+        <a href="editor.html">编辑器</a>
+        <a href="game.html">游戏</a>
+        <a href="leaderboard.html">排行榜</a>
+        <a href="settings.html">设置</a>
+    </nav>
+    <main class="content">
+        
+<section class="section">
+  <h2>选择迷宫</h2>
+  <div>
+    <label for="mazeSelect">选择迷宫：</label>
+    <select id="mazeSelect"></select>
+    <button id="loadBtn" class="btn">载入并开始</button>
+  </div>
+</section>
+
+<section class="section" id="gameSection" style="display:none;">
+  <div class="stats">
+    时间：<span id="timer">0.00</span>s &nbsp;|&nbsp; 步数：<span id="steps">0</span>
+  </div>
+  <canvas id="mazeCanvas" width="480" height="480"></canvas>
+  <div id="touchControls" class="touch">
+    <button class="btn" id="upBtn">▲</button>
+    <button class="btn" id="leftBtn">◀</button>
+    <button class="btn" id="rightBtn">▶</button>
+    <button class="btn" id="downBtn">▼</button>
+  </div>
+  <div style="margin-top:12px;text-align:center;">
+    <button id="leaderboardBtn" class="btn">查看排行榜</button>
+  </div>
+</section>
+
+<script>
+  // 工具函数
+  function $(id){ return document.getElementById(id); }
+  function saveMazeList(){
+    const keys = [];
+    for(let i=0;i<localStorage.length;i++){
+      const k = localStorage.key(i);
+      if(k.startsWith('maze_')) keys.push(k);
+    }
+    const sel = $('mazeSelect');
+    sel.innerHTML = '<option value="">-- 请选择迷宫 --</option>';
+    keys.forEach(k=>{
+      const opt = document.createElement('option');
+      opt.value = k;
+      opt.textContent = k.replace('maze_','');
+      sel.appendChild(opt);
+    });
+  }
+  function loadMaze(key){
+    const data = localStorage.getItem(key);
+    if(!data) return null;
+    return JSON.parse(data);
+  }
+  // 游戏状态
+  let maze = null;
+  let ctx = null;
+  let cellSize = 0, offsetX = 0, offsetY = 0;
+  let player = {x:0, y:0};
+  let startTimer = 0;
+  let timerInterval = null;
+  const rootStyle = getComputedStyle(document.documentElement);
+  const primaryColor = rootStyle.getPropertyValue('--primary');
+  // 初始化游戏
+  function initGame(m){
+    maze = m;
+    const canvas = $('mazeCanvas');
+    ctx = canvas.getContext('2d');
+    const cols = maze.width, rows = maze.height;
+    cellSize = Math.min(canvas.width/cols, canvas.height/rows);
+    offsetX = (canvas.width - cols*cellSize)/2;
+    offsetY = (canvas.height - rows*cellSize)/2;
+    player = {x:maze.start.x, y:maze.start.y};
+    $('steps').textContent = '0';
+    startTimer = Date.now();
+    if(timerInterval) clearInterval(timerInterval);
+    timerInterval = setInterval(updateTimer, 100);
+    draw();
+    $('gameSection').style.display = 'block';
+    $('mazeSelect').parentElement.parentElement.style.display = 'none';
+  }
+  // 计时更新
+  function updateTimer(){
+    const elapsed = ((Date.now() - startTimer)/1000).toFixed(2);
+    $('timer').textContent = elapsed;
+  }
+  // 绘制迷宫
+  function draw(){
+    ctx.clearRect(0,0,$('mazeCanvas').width,$('mazeCanvas').height);
+    ctx.strokeStyle = primaryColor;
+    ctx.lineWidth = 2;
+    const cols = maze.width, rows = maze.height;
+    // 画墙
+    for(let y=0;y<rows;y++){
+      for(let x=0;x<cols;x++){
+        const cell = maze.cells[y*cols+x];
+        const px = offsetX + x*cellSize;
+        const py = offsetY + y*cellSize;
+        // N=1,E=2,S=4,W=8
+        if(cell&1){ // 北
+          ctx.beginPath();
+          ctx.moveTo(px, py);
+          ctx.lineTo(px+cellSize, py);
+          ctx.stroke();
+        }
+        if(cell&2){ // 东
+          ctx.beginPath();
+          ctx.moveTo(px+cellSize, py);
+          ctx.lineTo(px+cellSize, py+cellSize);
+          ctx.stroke();
+        }
+        if(cell&4){ // 南
+          ctx.beginPath();
+          ctx.moveTo(px, py+cellSize);
+          ctx.lineTo(px+cellSize, py+cellSize);
+          ctx.stroke();
+        }
+        if(cell&8){ // 西
+          ctx.beginPath();
+          ctx.moveTo(px, py);
+          ctx.lineTo(px, py+cellSize);
+          ctx.stroke();
+        }
+      }
+    }
+    // 起点（绿色）
+    ctx.fillStyle = '#2ecc71';
+    const startPx = offsetX + maze.start.x*cellSize + cellSize/2;
+    const startPy = offsetY + maze.start.y*cellSize + cellSize/2;
+    ctx.beginPath();
+    ctx.arc(startPx, startPy, cellSize*0.3, 0, Math.PI*2);
+    ctx.fill();
+    // 终点（红色）
+    ctx.fillStyle = '#e74c3c';
+    const endPx = offsetX + maze.end.x*cellSize + cellSize/2;
+    const endPy = offsetY + maze.end.y*cellSize + cellSize/2;
+    ctx.beginPath();
+    ctx.arc(endPx, endPy, cellSize*0.3, 0, Math.PI*2);
+    ctx.fill();
+    // 玩家（蓝色圆）
+    ctx.fillStyle = '#3498db';
+    const pPx = offsetX + player.x*cellSize + cellSize/2;
+    const pPy = offsetY + player.y*cellSize + cellSize/2;
+    ctx.beginPath();
+    ctx.arc(pPx, pPy, cellSize*0.3, 0, Math.PI*2);
+    ctx.fill();
+  }
+  // 尝试移动
+  function attemptMove(dx, dy){
+    if(!maze) return;
+    const nx = player.x + dx, ny = player.y + dy;
+    if(nx<0||nx>=maze.width||ny<0||ny>=maze.height) return;
+    const index = player.y*maze.width + player.x;
+    const cell = maze.cells[index];
+    // 检查方向是否有墙
+    let blocked = false;
+    if(dx===0 && dy===-1) blocked = !!(cell&1); // 北
+    else if(dx===1 && dy===0) blocked = !!(cell&2); // 东
+    else if(dx===0 && dy===1) blocked = !!(cell&4); // 南
+    else if(dx===-1 && dy===0) blocked = !!(cell&8); // 西
+    if(blocked) return;
+    player.x = nx; player.y = ny;
+    $('steps').textContent = String(parseInt($('steps').textContent)+1);
+    draw();
+    if(player.x===maze.end.x && player.y===maze.end.y){
+      endGame();
+    }
+  }
+  // 结束游戏
+  function endGame(){
+    clearInterval(timerInterval);
+    const time = parseFloat($('timer').textContent);
+    const steps = parseInt($('steps').textContent);
+    const name = prompt('游戏完成！请输入你的名称（留空则为匿名）：','匿名') || '匿名';
+    const record = {name, time, steps, date: new Date().toISOString()};
+    let leaderboard = JSON.parse(localStorage.getItem('leaderboard')||'[]');
+    leaderboard.push(record);
+    leaderboard.sort((a,b)=>a.time-b.time);
+    localStorage.setItem('leaderboard', JSON.stringify(leaderboard));
+    alert(`恭喜，${name}！\n用时：${time}s\n步数：${steps}`);
+    // 跳转到排行榜
+    window.location.href = 'leaderboard.html';
+  }
+  // 事件绑定
+  $('loadBtn').onclick = ()=>{
+    const key = $('mazeSelect').value;
+    if(!key){ alert('请先选择一个迷宫'); return; }
+    const m = loadMaze(key);
+    if(!m){ alert('载入失败'); return; }
+    initGame(m);
+  };
+  // 键盘控制
+  window.addEventListener('keydown', e=>{
+    if(!$('gameSection')||$('gameSection').style.display==='none') return;
+    switch(e.key){
+      case 'ArrowUp': attemptMove(0,-1); break;
+      case 'ArrowDown': attemptMove(0,1); break;
+      case 'ArrowLeft': attemptMove(-1,0); break;
+      case 'ArrowRight': attemptMove(1,0); break;
+    }
+  });
+  // 触控按钮
+  $('upBtn').onclick = ()=> attemptMove(0,-1);
+  $('downBtn').onclick = ()=> attemptMove(0,1);
+  $('leftBtn').onclick = ()=> attemptMove(-1,0);
+  $('rightBtn').onclick = ()=> attemptMove(1,0);
+  // 排行榜按钮
+  $('leaderboardBtn').onclick = ()=>{ window.location.href = 'leaderboard.html'; };
+  // 初载入列表
+  saveMazeList();
+</script>
+
+    </main>
+</div>
+<footer data-a2a="footer" style="margin-top:48px;padding:28px 16px;border-top:1px solid rgba(127,127,127,.16);text-align:center;font-family:system-ui,-apple-system,'PingFang SC',sans-serif;line-height:1.9;color:#8a8f99;background:transparent"><a href="https://www.autoa2a.org" target="_blank" rel="noopener" style="display:inline-block;margin-bottom:10px"><img src="https://agent.oagi.com.cn/uploads/202606/29ea3ed5413830b3.png" alt="AutoA2A" style="height:36px;vertical-align:middle;border:0"></a><div style="font-size:13.5px;color:#6b7280;max-width:760px;margin:0 auto 6px">✅️ <b>AutoA2A</b> · 智能体互连 Agent to Agent 平台——让智能体无缝发现、协商、协作与安全交换数据，开启 AI 即服务新时代。</div><div style="font-size:13px">本网站由 <a href="https://www.autoa2a.org" target="_blank" rel="noopener" style="color:#f2603c;text-decoration:none;font-weight:600">www.autoa2a.org</a> 多个 AI 协作生成</div><div style="font-size:12px;color:#aab;margin-top:6px">Copyright © 2025 - 2026 AutoA2A. All Rights Reserved. A2A版权所有</div></footer></body>
+</html>
