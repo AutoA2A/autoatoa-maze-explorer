@@ -1,0 +1,287 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>迷宫编辑器</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+:root{
+    --primary:#2f6fed;
+    --bg:#ffffff;
+    --text:#000000;
+}
+body{
+    margin:0;
+    font-family:Helvetica Neue,Arial,sans-serif;
+    background:#f0f0f0;
+    color:var(--text);
+}
+.container{
+    max-width:960px;
+    margin:16px auto;
+    padding:0 16px;
+}
+.navbar{
+    background:var(--bg);
+    border-radius:8px;
+    padding:16px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    align-items:center;
+    box-shadow:0 2px 4px rgba(0,0,0,0.1);
+}
+.navbar a{
+    color:var(--primary);
+    text-decoration:none;
+    font-weight:500;
+    padding:8px 12px;
+    border-radius:4px;
+}
+.navbar a:hover{
+    background:rgba(47,111,237,0.1);
+}
+.content{
+    background:var(--bg);
+    border-radius:8px;
+    padding:16px;
+    min-height:400px;
+    box-shadow:0 2px 4px rgba(0,0,0,0.1);
+}
+@media (max-width:600px){
+    .navbar{
+        flex-direction:column;
+        align-items:flex-start;
+    }
+    .navbar a{
+        width:100%;
+        text-align:left;
+    }
+}
+</style>
+<meta name="description" content="提供网格绘制工具，用户可绘制墙壁、起点终点，保存至 localStorage，支持导入/导出。"><meta name="keywords" content="迷宫,游戏,编辑器,排行榜,本地存储"><meta name="robots" content="index,follow,max-image-preview:large"><meta property="og:type" content="website"><meta property="og:title" content="迷宫编辑器"><meta property="og:description" content="提供网格绘制工具，用户可绘制墙壁、起点终点，保存至 localStorage，支持导入/导出。"><meta name="twitter:card" content="summary"><meta name="twitter:title" content="迷宫编辑器"><meta name="twitter:description" content="提供网格绘制工具，用户可绘制墙壁、起点终点，保存至 localStorage，支持导入/导出。"><script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"迷宫编辑器","description":"提供网格绘制工具，用户可绘制墙壁、起点终点，保存至 localStorage，支持导入/导出。","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"CNY"}}</script><style data-a2a="basecss">*,*::before,*::after{box-sizing:border-box}html{-webkit-text-size-adjust:100%}body{margin:0}img,canvas,svg,video,table{max-width:100%;height:auto}pre,code{white-space:pre-wrap;word-break:break-word}[data-a2a="header"]{width:100%}@media(max-width:640px){body{font-size:15px}}</style></head>
+<body>
+<div class="container">
+    <nav class="navbar">
+        <a href="index.html">首页</a>
+        <a href="editor.html">编辑器</a>
+        <a href="game.html">游戏</a>
+        <a href="leaderboard.html">排行榜</a>
+        <a href="settings.html">设置</a>
+    </nav>
+    <main class="content">
+        
+<sectionclass="section">
+  <h2 style="color:var(--primary);margin-bottom:8px;">迷宫编辑器</h2>
+  <div class="media">
+    <article class="card">
+      <h3 style="margin-top:0;color:var(--primary);">工具</h3>
+      <p>模式：
+        <select id="modeSelect">
+          <option value="wall">墙壁</option>
+          <option value="start">起点</option>
+          <option value="end">终点</option>
+          <option value="erase">擦除</option>
+        </select>
+      </p>
+      <button class="btn" id="clearBtn">清空</button>
+      <button class="btn" id="saveBtn">保存</button>
+      <button class="btn" id="loadBtn">读取</button>
+      <button class="btn" id="exportBtn">导出</button>
+      <input type="file" id="importFile" accept=".json" style="display:none;">
+      <button class="btn" id="importBtn">导入</button>
+      <div id="status" style="margin-top:8px;font-size:0.9em;color:#555;"></div>
+    </article>
+    <canvas id="mazeCanvas" width="400" height="400"></canvas>
+  </div>
+</section>
+
+<script>
+(() => {
+  const canvas = document.getElementById('mazeCanvas');
+  const ctx = canvas.getContext('2d');
+  const modeSelect = document.getElementById('modeSelect');
+  const clearBtn = document.getElementById('clearBtn');
+  const saveBtn = document.getElementById('saveBtn');
+  const loadBtn = document.getElementById('loadBtn');
+  const exportBtn = document.getElementById('exportBtn');
+  const importBtn = document.getElementById('importBtn');
+  const importFile = document.getElementById('importFile');
+  const statusEl = document.getElementById('status');
+
+  const CELL_SIZE = 20;
+  let COLS = 20, ROWS = 20;
+  canvas.width = COLS * CELL_SIZE;
+  canvas.height = ROWS * CELL_SIZE;
+
+  // 0 empty, 1 wall, 2 start, 3 end
+  let grid = Array.from({length: ROWS}, () => Array(COLS).fill(0));
+  let startPos = null;
+  let endPos = null;
+
+  function drawGrid() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    // draw cells
+    for (let r = 0; r < ROWS; r++) {
+      for (let c = 0; c < COLS; c++) {
+        const x = c * CELL_SIZE;
+        const y = r * CELL_SIZE;
+        switch (grid[r][c]) {
+          case 1: // wall
+            ctx.fillStyle = '#555';
+            ctx.fillRect(x, y, CELL_SIZE, CELL_SIZE);
+            break;
+          case 2: // start
+            ctx.fillStyle = '#4caf50';
+            ctx.fillRect(x, y, CELL_SIZE, CELL_SIZE);
+            break;
+          case 3: // end
+            ctx.fillStyle = '#f44336';
+            ctx.fillRect(x, y, CELL_SIZE, CELL_SIZE);
+            break;
+          default:
+            ctx.strokeStyle = '#ddd';
+            ctx.strokeRect(x, y, CELL_SIZE, CELL_SIZE);
+        }
+      }
+    }
+  }
+
+  function getCellFromEvent(e) {
+    const rect = canvas.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const c = Math.floor(x / CELL_SIZE);
+    const r = Math.floor(y / CELL_SIZE);
+    if (c < 0 || c >= COLS || r < 0 || r >= ROWS) return null;
+    return {r, c};
+  }
+
+  function handleClick(e) {
+    const cell = getCellFromEvent(e);
+    if (!cell) return;
+    const {r, c} = cell;
+    const mode = modeSelect.value;
+    if (mode === 'wall') {
+      grid[r][c] = 1;
+    } else if (mode === 'start') {
+      if (startPos) grid[startPos.r][startPos.c] = 0;
+      grid[r][c] = 2;
+      startPos = {r, c};
+    } else if (mode === 'end') {
+      if (endPos) grid[endPos.r][endPos.c] = 0;
+      grid[r][c] = 3;
+      endPos = {r, c};
+    } else if (mode === 'erase') {
+      if (grid[r][c] === 2) startPos = null;
+      if (grid[r][c] === 3) endPos = null;
+      grid[r][c] = 0;
+    }
+    drawGrid();
+  }
+
+  canvas.addEventListener('mousedown', handleClick);
+  canvas.addEventListener('touchstart', e => {
+    e.preventDefault();
+    handleClick(e.touches[0]);
+  }, {passive: false});
+
+  clearBtn.addEventListener('click', () => {
+    grid = Array.from({length: ROWS}, () => Array(COLS).fill(0));
+    startPos = null;
+    endPos = null;
+    drawGrid();
+    statusEl.textContent = '已清空';
+  });
+
+  function saveToStorage() {
+    const data = {
+      grid,
+      startPos,
+      endPos,
+      cols: COLS,
+      rows: ROWS,
+      cellSize: CELL_SIZE
+    };
+    localStorage.setItem('mazeEditorData', JSON.stringify(data));
+    statusEl.textContent = '已保存到本地存储';
+  }
+
+  function loadFromStorage() {
+    const data = localStorage.getItem('mazeEditorData');
+    if (!data) {
+      statusEl.textContent = '本地存储中无数据';
+      return;
+    }
+    try {
+      const parsed = JSON.parse(data);
+      grid = parsed.grid;
+      startPos = parsed.startPos;
+      endPos = parsed.endPos;
+      COLS = parsed.cols || COLS;
+      ROWS = parsed.rows || ROWS;
+      canvas.width = COLS * CELL_SIZE;
+      canvas.height = ROWS * CELL_SIZE;
+      drawGrid();
+      statusEl.textContent = '已从本地存储读取';
+    } catch (e) {
+      statusEl.textContent = '读取失败：数据损坏';
+    }
+  }
+
+  saveBtn.addEventListener('click', saveToStorage);
+  loadBtn.addEventListener('click', loadFromStorage);
+
+  exportBtn.addEventListener('click', () => {
+    const data = {
+      grid,
+      startPos,
+      endPos,
+      cols: COLS,
+      rows: ROWS,
+      cellSize: CELL_SIZE
+    };
+    const blob = new Blob([JSON.stringify(data, null, 2)], {type: 'application/json'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'maze.json';
+    a.click();
+    URL.revokeObjectURL(url);
+    statusEl.textContent = '已导出为 maze.json';
+  });
+
+  importBtn.addEventListener('click', () => importFile.click());
+  importFile.addEventListener('change', e => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = ev => {
+      try {
+        const parsed = JSON.parse(ev.target.result);
+        grid = parsed.grid;
+        startPos = parsed.startPos;
+        endPos = parsed.endPos;
+        COLS = parsed.cols || COLS;
+        ROWS = parsed.rows || ROWS;
+        canvas.width = COLS * CELL_SIZE;
+        canvas.height = ROWS * CELL_SIZE;
+        drawGrid();
+        statusEl.textContent = '导入成功';
+      } catch (err) {
+        statusEl.textContent = '导入失败：无效的 JSON';
+      }
+    };
+    reader.readAsText(file);
+    e.target.value = '';
+  });
+
+  // 初始绘制
+  drawGrid();
+})();
+</script>
+
+    </main>
+</div>
+<footer data-a2a="footer" style="margin-top:48px;padding:28px 16px;border-top:1px solid rgba(127,127,127,.16);text-align:center;font-family:system-ui,-apple-system,'PingFang SC',sans-serif;line-height:1.9;color:#8a8f99;background:transparent"><a href="https://www.autoa2a.org" target="_blank" rel="noopener" style="display:inline-block;margin-bottom:10px"><img src="https://agent.oagi.com.cn/uploads/202606/29ea3ed5413830b3.png" alt="AutoA2A" style="height:36px;vertical-align:middle;border:0"></a><div style="font-size:13.5px;color:#6b7280;max-width:760px;margin:0 auto 6px">✅️ <b>AutoA2A</b> · 智能体互连 Agent to Agent 平台——让智能体无缝发现、协商、协作与安全交换数据，开启 AI 即服务新时代。</div><div style="font-size:13px">本网站由 <a href="https://www.autoa2a.org" target="_blank" rel="noopener" style="color:#f2603c;text-decoration:none;font-weight:600">www.autoa2a.org</a> 多个 AI 协作生成</div><div style="font-size:12px;color:#aab;margin-top:6px">Copyright © 2025 - 2026 AutoA2A. All Rights Reserved. A2A版权所有</div></footer></body>
+</html>
