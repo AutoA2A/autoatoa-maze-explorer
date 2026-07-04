@@ -1,129 +1,220 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="zh-CN">
-<head><script>window.APP_DATA = [{"id":1,"maze":[[0,1,0,0,1],[0,1,0,1,0],[0,0,0,1,0],[1,1,0,0,0],[0,0,1,1,0]],"solution":[[0,0],[1,0],[2,0],[2,1],[2,2],[3,2],[4,2],[4,3],[4,4]],"size":"5x5","difficulty":"Easy","time":"0.12s","steps":9},{"id":2,"maze":[[0,0,1,0,0,1],[1,0,1,0,1,0],[0,0,0,0,1,0],[0,1,1,0,0,0],[1,0,0,1,1,0],[0,0,1,0,0,0]],"solution":[[0,0],[0,1],[1,1],[2,1],[2,2],[2,3],[3,3],[4,3],[5,3],[5,4],[5,5]],"size":"6x6","difficulty":"Medium","time":"0.34s","steps":11},{"id":3,"maze":[[0,1,0,0,0,1,0],[0,1,0,1,0,1,0],[0,0,0,1,0,0,0],[1,1,1,0,1,1,0],[0,0,0,0,0,0,0]],"solution":[[0,0],[1,0],[2,0],[2,1],[2,2],[2,3],[3,3],[4,3],[4,4],[4,5],[4,6]],"size":"5x7","difficulty":"Hard","time":"0.68s","steps":11},{"id":4,"maze":[[0,0,0,1,0],[1,1,0,1,0],[0,0,0,0,0],[0,1,1,1,1],[0,0,0,0,0]],"solution":[[0,0],[0,1],[0,2],[1,2],[2,2],[2,3],[2,4],[3,4],[4,4]],"size":"5x5","difficulty":"Easy","time":"0.09s","steps":9},{"id":5,"maze":[[0,1,1,0,0,0],[0,0,1,0,1,0],[1,0,0,0,1,0],[1,1,1,0,0,0],[0,0,0,1,1,0],[0,1,0,0,0,0]],"solution":[[0,0],[1,0],[1,1],[2,1],[2,2],[2,3],[3,3],[4,3],[5,3],[5,4],[5,5]],"size":"6x6","difficulty":"Medium","time":"0.27s","steps":11},{"id":6,"maze":[[0,0,1,0,1,0,0],[1,0,1,0,1,0,1],[0,0,0,0,0,0,0],[0,1,1,1,1,1,0],[0,0,0,0,0,0,0]],"solution":[[0,0],[0,1],[1,1],[2,1],[2,2],[2,3],[2,4],[2,5],[2,6],[3,6],[4,6]],"size":"5x7","difficulty":"Hard","time":"0.81s","steps":11},{"id":7,"maze":[[0,1,0,0],[0,1,0,1],[0,0,0,1],[1,1,0,0]],"solution":[[0,0],[1,0],[2,0],[2,1],[2,2],[3,2],[3,3]],"size":"4x4","difficulty":"Easy","time":"0.05s","steps":7},{"id":8,"maze":[[0,0,1,0,0,1],[1,0,1,0,1,0],[0,0,0,0,0,0],[0,1,1,1,1,0],[0,0,0,0,0,0],[1,1,0,1,1,0]],"solution":[[0,0],[0,1],[1,1],[2,1],[2,2],[2,3],[2,4],[2,5],[3,5],[4,5],[5,5]],"size":"6x6","difficulty":"Medium","time":"0.31s","steps":11},{"id":9,"maze":[[0,1,0,0,0],[0,1,0,1,0],[0,0,0,1,0],[1,1,0,0,0],[0,0,0,1,0]],"solution":[[0,0],[1,0],[2,0],[2,1],[2,2],[3,2],[4,2],[4,3],[4,4]],"size":"5x5","difficulty":"Easy","time":"0.11s","steps":9},{"id":10,"maze":[[0,0,0,1,0,0],[1,1,0,1,0,1],[0,0,0,0,0,0],[0,1,1,1,1,0],[0,0,0,0,1,0],[1,0,1,0,0,0]],"solution":[[0,0],[0,1],[0,2],[1,2],[2,2],[2,3],[2,4],[2,5],[3,5],[4,5],[5,5]],"size":"6x6","difficulty":"Hard","time":"0.74s","steps":11},{"id":11,"maze":[[0,1,0,0,1,0],[0,1,0,1,0,0],[0,0,0,1,0,1],[1,0,1,0,0,0],[0,0,0,0,1,0],[0,1,1,0,0,0]],"solution":[[0,0],[1,0],[2,0],[2,1],[2,2],[3,2],[4,2],[4,3],[4,4],[5,4],[5,5]],"size":"6x6","difficulty":"Medium","time":"0.29s","steps":11},{"id":12,"maze":[[0,0,1,0],[1,0,1,0],[0,0,0,0],[0,1,1,0],[0,0,0,0]],"solution":[[0,0],[0,1],[1,1],[2,1],[2,2],[2,3],[3,3],[4,3]],"size":"5x4","difficulty":"Easy","time":"0.07s","steps":8},{"id":13,"maze":[[0,1,0,0,0,1,0],[0,1,0,1,0,1,0],[0,0,0,1,0,0,0],[1,1,0,0,0,1,0],[0,0,0,1,0,0,0]],"solution":[[0,0],[1,0],[2,0],[2,1],[2,2],[3,2],[4,2],[4,3],[4,4],[4,5],[4,6]],"size":"5x7","difficulty":"Hard","time":"0.88s","steps":11},{"id":14,"maze":[[0,0,0,1,0],[1,1,0,1,0],[0,0,0,0,0],[0,1,1,1,1],[0,0,0,0,0]],"solution":[[0,0],[0,1],[0,2],[1,2],[2,2],[2,3],[2,4],[3,4],[4,4]],"size":"5x5","difficulty":"Medium","time":"0.22s","steps":9},{"id":15,"maze":[[0,1,0,0,0,0],[0,1,1,1,1,0],[0,0,0,0,1,0],[1,1,1,0,1,0],[0,0,0,0,0,0],[0,1,1,1,1,1]],"solution":[[0,0],[1,0],[2,0],[2,1],[2,2],[2,3],[3,3],[4,3],[4,4],[4,5]],"size":"6x6","difficulty":"Hard","time":"0.95s","steps":10},{"id":16,"maze":[[0,1,0,0],[0,1,0,1],[0,0,0,1],[1,1,0,0]],"solution":[[0,0],[1,0],[2,0],[2,1],[2,2],[3,2],[3,3]],"size":"4x4","difficulty":"Easy","time":"0.12s","steps":7},{"id":17,"maze":[[0,0,1,0,0],[1,0,1,0,1],[1,0,0,0,0],[0,1,1,1,0],[0,0,0,0,0]],"solution":[[0,0],[0,1],[1,1],[2,1],[2,2],[2,3],[2,4],[3,4],[4,4]],"size":"5x5","difficulty":"Medium","time":"0.34s","steps":9},{"id":18,"maze":[[0,1,1,0,0,0],[0,0,1,0,1,0],[1,0,0,0,1,0],[0,1,1,0,0,0]],"solution":[[0,0],[1,0],[1,1],[2,1],[2,2],[2,3],[3,3],[3,4],[3,5]],"size":"4x6","difficulty":"Medium","time":"0.27s","steps":9},{"id":19,"maze":[[0,0,0,1,0],[1,1,0,1,0],[0,0,0,0,0],[0,1,1,1,1],[0,0,0,0,0]],"solution":[[0,0],[0,1],[0,2],[1,2],[2,2],[2,3],[2,4],[3,4],[4,4]],"size":"5x5","difficulty":"Hard","time":"0.58s","steps":9},{"id":20,"maze":[[0,1,0,0,0,1,0],[0,1,0,1,0,1,0],[0,0,0,1,0,0,0],[1,1,0,0,0,1,1]],"solution":[[0,0],[1,0],[2,0],[2,1],[2,2],[3,2],[3,3],[3,4],[2,4],[1,4],[0,4],[0,5],[0,6]],"size":"4x7","difficulty":"Hard","time":"0.73s","steps":13},{"id":21,"maze":[[0,0,1,0],[0,1,0,0],[0,1,0,1],[0,0,0,0]],"solution":[[0,0],[1,0],[2,0],[3,0],[3,1],[3,2],[3,3]],"size":"4x4","difficulty":"Easy","time":"0.09s","steps":7},{"id":22,"maze":[[0,1,0,0,0],[0,1,0,1,0],[0,0,0,1,0],[1,1,0,0,0]],"solution":[[0,0],[1,0],[2,0],[2,1],[2,2],[3,2],[3,3],[3,4]],"size":"4x5","difficulty":"Medium","time":"0.31s","steps":8},{"id":23,"maze":[[0,0,0,1,0,0],[1,1,0,1,0,1],[0,0,0,0,0,0],[0,1,1,1,1,0]],"solution":[[0,0],[0,1],[0,2],[1,2],[2,2],[2,3],[2,4],[2,5],[3,5]],"size":"4x6","difficulty":"Hard","time":"0.66s","steps":9},{"id":24,"maze":[[0,1,0,0,0,0,0],[0,1,0,1,1,1,0],[0,0,0,0,0,1,0],[1,1,1,1,0,1,0]],"solution":[[0,0],[1,0],[2,0],[2,1],[2,2],[2,3],[2,4],[3,4],[4,4]],"size":"5x7","difficulty":"Medium","time":"0.42s","steps":9},{"id":25,"maze":[[0,0,1,0,0],[0,1,0,1,0],[0,1,0,0,0],[0,0,0,1,0]],"solution":[[0,0],[0,1],[1,1],[2,1],[2,2],[2,3],[2,4],[3,4]],"size":"4x5","difficulty":"Easy","time":"0.15s","steps":8},{"id":26,"maze":[[0,1,0,0,0,0],[0,1,0,1,1,0],[0,0,0,0,1,0],[1,1,1,0,0,0]],"solution":[[0,0],[1,0],[2,0],[2,1],[2,2],[2,3],[3,3],[3,4],[3,5]],"size":"4x6","difficulty":"Hard","time":"0.71s","steps":9},{"id":27,"maze":[[0,0,0,1,0,0,0],[1,1,0,1,0,1,0],[0,0,0,0,0,1,0],[0,1,1,1,0,0,0]],"solution":[[0,0],[0,1],[0,2],[1,2],[2,2],[2,3],[2,4],[3,4],[4,4]],"size":"5x7","difficulty":"Medium","time":"0.38s","steps":9},{"id":28,"maze":[[0,1,0,0],[0,1,0,1],[0,0,0,0],[1,1,1,0]],"solution":[[0,0],[1,0],[2,0],[2,1],[2,2],[2,3],[3,3]],"size":"4x4","difficulty":"Easy","time":"0.11s","steps":7},{"id":29,"maze":[[0,0,1,0,0,0],[0,1,0,1,1,0],[0,1,0,0,0,0],[0,0,0,1,1,0]],"solution":[[0,0],[0,1],[1,1],[2,1],[2,2],[2,3],[2,4],[2,5]],"size":"4x6","difficulty":"Medium","time":"0.33s","steps":8},{"id":30,"maze":[[0,1,0,0,0],[0,1,0,1,0],[0,0,0,1,0],[1,1,0,0,0]],"solution":[[0,0],[1,0],[2,0],[2,1],[2,2],[3,2],[3,3],[3,4]],"size":"4x5","difficulty":"Hard","time":"0.59s","steps":8},{"id":31,"maze":[[0,0,0,1,0,0,0,0],[1,1,0,1,0,1,1,0],[0,0,0,0,0,0,0,0],[0,1,1,1,1,1,0,0]],"solution":[[0,0],[0,1],[0,2],[1,2],[2,2],[2,3],[2,4],[2,5],[2,6],[2,7]],"size":"4x8","difficulty":"Hard","time":"0.84s","steps":10},{"id":32,"maze":[[0,0,1,0,0,1],[0,1,0,1,0,0],[0,0,0,0,0,0],[1,1,1,0,1,0]],"solution":[[0,0],[0,1],[1,1],[2,1],[2,2],[2,3],[2,4],[2,5]],"size":"4x6","difficulty":"Easy","time":"0.14s","steps":8},{"id":33,"maze":[[0,1,0,0,0,0,1],[0,1,0,1,1,0,0],[0,0,0,0,0,0,0],[1,1,1,0,1,1,0]],"solution":[[0,0],[1,0],[2,0],[2,1],[2,2],[2,3],[2,4],[2,5],[2,6]],"size":"4x7","difficulty":"Medium","time":"0.37s","steps":9},{"id":34,"maze":[[0,0,0,1,0],[0,1,0,1,0],[0,1,0,0,0],[0,0,0,1,0]],"solution":[[0,0],[0,1],[0,2],[1,2],[2,2],[2,3],[2,4],[3,4]],"size":"4x5","difficulty":"Easy","time":"0.16s","steps":8},{"id":35,"maze":[[0,1,0,0,0,0],[0,1,0,1,1,0],[0,0,0,0,0,0],[1,1,1,0,1,0]],"solution":[[0,0],[1,0],[2,0],[2,1],[2,2],[2,3],[2,4],[2,5],[3,5]],"size":"4x6","difficulty":"Hard","time":"0.78s","steps":9}];(function(d){try{if(Array.isArray(d)){["items","list","data","records","rows","all","results","content"].forEach(function(k){try{if(d[k]===undefined)d[k]=d;}catch(e){}});}window.APP_LIST=Array.isArray(d)?d:[];window.getById=function(id){return window.APP_LIST.find(function(x){return x&&String(x.id)===String(id);})||null;};}catch(e){}})(window.APP_DATA);</script>
-    <meta charset="UTF-8">
-    <title>迷宫探索游戏</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style>
-        :root{
-            --primary:#2f6fed;
-            --secondary:#f5f5f5;
-            --font-family:"Arial, sans-serif";
-            --nav-bg:#ffffff;
-            --nav-text:#333333;
-            --nav-height:60px;
-            --card-bg:#ffffff;
-            --card-radius:8px;
-            --card-shadow:0 2px 4px rgba(0,0,0,0.1);
-            --button-bg:#2f6fed;
-            --button-text:#ffffff;
-            --button-radius:4px;
-            --spacing-margin:20px;
-            --spacing-padding:15px;
-        }
-        *{
-            box-sizing:border-box;
-        }
-        body{
-            margin:0;
-            font-family:var(--font-family);
-            background:var(--secondary);
-            color:#333;
-        }
-        .nav{
-            display:flex;
-            align-items:center;
-            justify-content:center;
-            background:var(--nav-bg);
-            height:var(--nav-height);
-            box-shadow:0 2px 4px rgba(0,0,0,0.1);
-            flex-wrap:wrap;
-        }
-        .nav a{
-            margin:0 12px;
-            color:var(--nav-text);
-            text-decoration:none;
-            font-weight:500;
-        }
-        .container{
-            max-width:960px;
-            margin:auto;
-            padding:var(--spacing-padding);
-        }
-        .card{
-            background:var(--card-bg);
-            border-radius:var(--card-radius);
-            box-shadow:var(--card-shadow);
-            padding:var(--spacing-padding);
-            margin-bottom:var(--spacing-margin);
-        }
-        .card h3{
-            margin-top:0;
-        }
-        .button{
-            display:inline-block;
-            background:var(--button-bg);
-            color:var(--button-text);
-            border:none;
-            border-radius:var(--button-radius);
-            padding:10px 20px;
-            cursor:pointer;
-            text-decoration:none;
-            font-size:14px;
-        }
-        @media (max-width:600px){
-            .nav{
-                flex-direction:column;
-                height:auto;
-                padding:10px 0;
-            }
-            .nav a{
-                margin:5px 0;
-            }
-        }
-    </style>
-    <script>
-        // APP_DATA 已经由系统注入
-        // 辅助函数
-        function getParam(name){
-            const url = new URL(window.location.href);
-            return url.searchParams.get(name);
-        }
-        function renderList(){
-            const container = document.getElementById('list');
-            if(!Array.isArray(window.APP_DATA)) return;
-            window.APP_DATA.forEach(item=>{
-                const card = document.createElement('div');
-                card.className='card';
-                const title = document.createElement('h3');
-                title.textContent=`迷宫 #${item.id} - ${item.difficulty}`;
-                const info = document.createElement('p');
-                info.innerHTML = `
-                    大小: ${item.size}<br>
-                    步数: ${item.steps}<br>
-                    用时: ${item.time}
-                `;
-                const link = document.createElement('a');
-                link.className='button';
-                link.href=`generate.html?id=${item.id}`;
-                link.textContent='开始探索';
-                card.appendChild(title);
-                card.appendChild(info);
-                card.appendChild(link);
-                container.appendChild(card);
-            });
-        }
-        document.addEventListener('DOMContentLoaded',renderList);
-    </script>
-<meta name="description" content="展示游戏简介、开始按钮，点击跳转到generate.html"><meta name="keywords" content="迷宫,游戏,算法,求解,前端,JavaScript,Canvas,Web Worker"><meta name="robots" content="index,follow,max-image-preview:large"><meta property="og:type" content="website"><meta property="og:title" content="迷宫探索游戏"><meta property="og:description" content="展示游戏简介、开始按钮，点击跳转到generate.html"><meta name="twitter:card" content="summary"><meta name="twitter:title" content="迷宫探索游戏"><meta name="twitter:description" content="展示游戏简介、开始按钮，点击跳转到generate.html"><script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"迷宫探索游戏","description":"展示游戏简介、开始按钮，点击跳转到generate.html","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"CNY"}}</script></head>
+<head>
+<meta charset="utf-8">
+<title>迷宫探索首页</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+:root{
+    --primary:#2f6fed;
+    --bg:#ffffff;
+    --text:#000000;
+}
+body{
+    margin:0;
+    font-family:Helvetica Neue,Arial,sans-serif;
+    background:#f0f0f0;
+    color:var(--text);
+}
+.container{
+    max-width:960px;
+    margin:16px auto;
+    padding:0 16px;
+}
+.navbar{
+    background:var(--bg);
+    border-radius:8px;
+    padding:16px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    align-items:center;
+    box-shadow:0 2px 4px rgba(0,0,0,0.1);
+}
+.navbar a{
+    color:var(--primary);
+    text-decoration:none;
+    font-weight:500;
+    padding:8px 12px;
+    border-radius:4px;
+}
+.navbar a:hover{
+    background:rgba(47,111,237,0.1);
+}
+.content{
+    background:var(--bg);
+    border-radius:8px;
+    padding:16px;
+    min-height:400px;
+    box-shadow:0 2px 4px rgba(0,0,0,0.1);
+}
+@media (max-width:600px){
+    .navbar{
+        flex-direction:column;
+        align-items:flex-start;
+    }
+    .navbar a{
+        width:100%;
+        text-align:left;
+    }
+}
+</style>
+<meta name="description" content="展示游戏入口、最近关卡和快速开始按钮，点击进入游戏或编辑器。"><meta name="keywords" content="迷宫,游戏,编辑器,排行榜,本地存储"><meta name="robots" content="index,follow,max-image-preview:large"><meta property="og:type" content="website"><meta property="og:title" content="迷宫探索首页"><meta property="og:description" content="展示游戏入口、最近关卡和快速开始按钮，点击进入游戏或编辑器。"><meta name="twitter:card" content="summary"><meta name="twitter:title" content="迷宫探索首页"><meta name="twitter:description" content="展示游戏入口、最近关卡和快速开始按钮，点击进入游戏或编辑器。"><script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"迷宫探索首页","description":"展示游戏入口、最近关卡和快速开始按钮，点击进入游戏或编辑器。","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"CNY"}}</script><style data-a2a="basecss">*,*::before,*::after{box-sizing:border-box}html{-webkit-text-size-adjust:100%}body{margin:0}img,canvas,svg,video,table{max-width:100%;height:auto}pre,code{white-space:pre-wrap;word-break:break-word}[data-a2a="header"]{width:100%}@media(max-width:640px){body{font-size:15px}}</style></head>
 <body>
-    <nav class="nav">
+<div class="container">
+    <nav class="navbar">
         <a href="index.html">首页</a>
-        <a href="generate.html">生成新迷宫</a>
+        <a href="editor.html">编辑器</a>
+        <a href="game.html">游戏</a>
+        <a href="leaderboard.html">排行榜</a>
+        <a href="settings.html">设置</a>
     </nav>
-    <div class="container">
-        <h1>迷宫探索游戏</h1>
-        <div id="list"></div>
+    <main class="content">
+        
+<section style="margin-bottom:16px;">
+  <h2 style="color:var(--primary);margin-bottom:8px;">迷宫探索首页</h2>
+  <div style="background:var(--bg);border-radius:8px;padding:16px;box-shadow:0 2px 4px rgba(0,0,0,0.1);">
+    <!-- 游戏预览 -->
+    <div style="background:var(--bg);border-radius:8px;padding:16px;box-shadow:0 2px 4px rgba(0,0,0,0.1);margin-bottom:16px;">
+      <h3 style="margin-top:0;color:var(--primary);">游戏预览</h3>
+      <canvas id="previewCanvas" width="200" height="200" style="border:1px solid #ccc;display:block;margin:0 auto;"></canvas>
     </div>
+
+    <!-- 控制按钮 -->
+    <div style="text-align:center;margin-bottom:16px;">
+      <button id="quickStartBtn" style="background:var(--primary);color:#fff;border:none;border-radius:4px;padding:8px 16px;font-weight:500;cursor:pointer;">快速开始</button>
+      <button id="loadRecentBtn" style="background:var(--primary);color:#fff;border:none;border-radius:4px;padding:8px 16px;font-weight:500;cursor:pointer;margin-left:8px;">载入最近</button>
+    </div>
+
+    <!-- 最近关卡 -->
+    <div style="background:var(--bg);border-radius:8px;padding:16px;box-shadow:0 2px 4px rgba(0,0,0,0.1);margin-bottom:16px;">
+      <h3 style="margin-top:0;color:var(--primary);">最近关卡</h3>
+      <div id="recentList" style="text-align:center;"></div>
+    </div>
+
+    <!-- 导航链接 -->
+    <div style="text-align:center;font-size:0.9rem;">
+      <a href="editor.html">编辑器</a> |
+      <a href="game.html">游戏</a> |
+      <a href="leaderboard.html">排行榜</a> |
+      <a href="settings.html">设置</a>
+    </div>
+  </div>
+</section>
+
+<script>
+  const previewCanvas = document.getElementById('previewCanvas');
+  const ctx = previewCanvas.getContext('2d');
+  const COLS = 10, ROWS = 10;
+  const cellSize = previewCanvas.width / COLS;
+
+  function generateMaze() {
+    const maze = Array.from({length:ROWS},()=>Array.from({length:COLS},()=>({N:true,E:true,S:true,W:true})));
+    const visited = Array.from({length:ROWS},()=>Array(COLS).fill(false));
+    function carve(x,y){
+      visited[y][x]=true;
+      const dirs=[{dx:0,dy:-1},{dx:1,dy:0},{dx:0,dy:1},{dx:-1,dy:0}].sort(()=>Math.random()-0.5);
+      for(const d of dirs){
+        const nx=x+d.dx, ny=y+d.dy;
+        if(nx<0||nx>=COLS||ny<0||ny>=ROWS||visited[ny][nx]) continue;
+        if(d.dx===0&&d.dy===-1){ maze[y][x].N=false; maze[ny][nx].S=false; }
+        if(d.dx===1&&d.dy===0){ maze[y][x].E=false; maze[ny][nx].W=false; }
+        if(d.dx===0&&d.dy===1){ maze[y][x].S=false; maze[ny][nx].N=false; }
+        if(d.dx===-1&&d.dy===0){ maze[y][x].W=false; maze[ny][nx].E=false; }
+        carve(nx,ny);
+      }
+    }
+    carve(0,0);
+    return maze;
+  }
+
+  function drawMaze(maze){
+    ctx.clearRect(0,0,previewCanvas.width,previewCanvas.height);
+    ctx.strokeStyle = '#555';
+    ctx.lineWidth = 2;
+    for(let y=0;y<ROWS;y++){
+      for(let x=0;x<COLS;x++){
+        const cell = maze[y][x];
+        const cx = x*cellSize;
+        const cy = y*cellSize;
+        if(cell.N){
+          ctx.beginPath();
+          ctx.moveTo(cx,cy);
+          ctx.lineTo(cx+cellSize,cy);
+          ctx.stroke();
+        }
+        if(cell.E){
+          ctx.beginPath();
+          ctx.moveTo(cx+cellSize,cy);
+          ctx.lineTo(cx+cellSize,cy+cellSize);
+          ctx.stroke();
+        }
+        if(cell.S){
+          ctx.beginPath();
+          ctx.moveTo(cx,cy+cellSize);
+          ctx.lineTo(cx+cellSize,cy+cellSize);
+          ctx.stroke();
+        }
+        if(cell.W){
+          ctx.beginPath();
+          ctx.moveTo(cx,cy);
+          ctx.lineTo(cx,cy+cellSize);
+          ctx.stroke();
+        }
+      }
+    }
+  }
+
+  function updateRecentList(){
+    const recent = JSON.parse(localStorage.getItem('mazeRecent')||'[]');
+    const container = document.getElementById('recentList');
+    container.innerHTML='';
+    if(recent.length===0){
+      container.textContent='暂无最近关卡';
+      return;
+    }
+    recent.forEach((id,idx)=>{
+      const btn = document.createElement('button');
+      btn.textContent = `关卡 ${id}`;
+      btn.style.margin='4px';
+      btn.style.padding='6px 10px';
+      btn.style.fontSize='0.9rem';
+      btn.style.background='var(--primary)';
+      btn.style.color='#fff';
+      btn.style.border='none';
+      btn.style.borderRadius='4px';
+      btn.style.cursor='pointer';
+      btn.onclick=()=>{ window.location.href = `game.html?id=${id}`; };
+      container.appendChild(btn);
+    });
+  }
+
+  // 初始化预览迷宫
+  const maze = generateMaze();
+  drawMaze(maze);
+
+  // 快速开始：生成新种子进入游戏
+  document.getElementById('quickStartBtn').onclick=()=>{
+    const seed = Date.now()+Math.random();
+    window.location.href = `game.html?id=${seed}`;
+  };
+
+  // 载入最近：进入最近的关卡
+  document.getElementById('loadRecentBtn').onclick=()=>{
+    const recent = JSON.parse(localStorage.getItem('mazeRecent')||'[]');
+    if(recent.length===0){
+      alert('暂无最近关卡');
+    }else{
+      const id = recent[recent.length-1];
+      window.location.href = `game.html?id=${id}`;
+    }
+  };
+
+  // 显示最近关卡列表
+  updateRecentList();
+</script>
+
+    </main>
+</div>
 <footer data-a2a="footer" style="margin-top:48px;padding:28px 16px;border-top:1px solid rgba(127,127,127,.16);text-align:center;font-family:system-ui,-apple-system,'PingFang SC',sans-serif;line-height:1.9;color:#8a8f99;background:transparent"><a href="https://www.autoa2a.org" target="_blank" rel="noopener" style="display:inline-block;margin-bottom:10px"><img src="https://agent.oagi.com.cn/uploads/202606/29ea3ed5413830b3.png" alt="AutoA2A" style="height:36px;vertical-align:middle;border:0"></a><div style="font-size:13.5px;color:#6b7280;max-width:760px;margin:0 auto 6px">✅️ <b>AutoA2A</b> · 智能体互连 Agent to Agent 平台——让智能体无缝发现、协商、协作与安全交换数据，开启 AI 即服务新时代。</div><div style="font-size:13px">本网站由 <a href="https://www.autoa2a.org" target="_blank" rel="noopener" style="color:#f2603c;text-decoration:none;font-weight:600">www.autoa2a.org</a> 多个 AI 协作生成</div><div style="font-size:12px;color:#aab;margin-top:6px">Copyright © 2025 - 2026 AutoA2A. All Rights Reserved. A2A版权所有</div></footer></body>
 </html>
